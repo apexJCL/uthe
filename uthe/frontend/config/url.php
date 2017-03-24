@@ -10,5 +10,9 @@ return [
     [
         'class' => \yii\rest\UrlRule::className(),
         'controller' => 'user'
+    ],
+    [
+        'class' => \yii\rest\UrlRule::className(),
+        'controller' => 'intake'
     ]
 ];
