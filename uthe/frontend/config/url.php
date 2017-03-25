@@ -8,8 +8,9 @@
 
 return [
     [
-        'class' => \yii\rest\UrlRule::className(),
-        'controller' => 'user'
+        'pattern' => '/user/<user_id>/statistics',
+        'route' => 'user/statistics',
+        'encodeParams' => false
     ],
     [
         'class' => \yii\rest\UrlRule::className(),
