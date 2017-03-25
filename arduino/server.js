@@ -23,14 +23,7 @@ router.get('/', function(req, res){
 	res.json({ message: 'Hooray!'})
 });
 
-router.route('/flow').get(function(req, res){
-	console.log(req.query);
-	var time_flow = req.query.time;
-	var litros = req.query.maxflow;
-	res.json({ mess: 'good'});
 
-
-})
 
 app.use('/api', router);
 app.listen(port);
@@ -38,25 +31,42 @@ console.log('Magic happens on port ' + port);
 
 
 board.on("ready", function() {
-  this.pinMode(2, five.Pin.INPUT);
-  lastFlowPinState = 0;
+	this.pinMode(2, five.Pin.INPUT);
+	lastFlowPinState = 0;
+  
+  	var valvu = new five.Led(3);
 
-  // Check Digital Pin to see if theres a change
-  var x = this.digitalRead(2, function(value) {
-    // send the pin status to flowSignal helper
-    flowSignal(value);
-    //console.log("pinValue: " + value);
-  });
+  	// Check Digital Pin to see if theres a change
+  	var x = this.digitalRead(2, function(value) {
+    	// send the pin status to flowSignal helper
+    	flowSignal(value);
+    	//console.log("pinValue: " + value);
+	});
+  
+	router.route('/flow').get(function(req, res){		
+		var litres = 0;
+		pulses = 0
+		var time_flow = req.query.time;
+		var litresAuth = req.query.maxflow;			
+		valvu.on();		
 
-  // Set how often to Emit data to Plotly
-  setInterval(function() {
-    var litres = pulses;
-    litres /= 7.5;
-    litres /= 60;
-    //console.log("Freq: " + pulses)
-    //console.log("Litros: " + litres)
-    var time = getDateString();        
-  }, 1000);
+		var interval = setInterval(function() {
+			litres = pulses;
+			litres /= 7.5;
+			litres /= 60;
+			
+			if(litres >= litresAuth || time_flow == 0){
+				valvu.off();
+				console.log("Successful")
+				res.json({ litres: litres, time : time_flow});
+				clearInterval(interval)
+			}else{
+				console.log('Litres: ' + litres, ' time: ' + time_flow )
+			}			
+			time_flow --;
+		}, 1000);
+
+	});
 });
 
 // helper function to keep track of pulses
@@ -81,4 +91,8 @@ function getDateString () {
   // for your timezone just multiply +/-GMT by 3600000
   var datestr = new Date(time - 14400000).toISOString().replace(/T/, ' ').replace(/Z/, '');
   return datestr;
+}
+
+function calculateDate (time) {
+	var time = new Date ();
 }
