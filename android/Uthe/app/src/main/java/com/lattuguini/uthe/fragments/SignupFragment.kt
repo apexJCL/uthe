@@ -13,10 +13,15 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.lattuguini.uthe.R
 import com.lattuguini.uthe.activities.LoginActivity
 import com.lattuguini.uthe.net.Service
 import com.lattuguini.uthe.shared.Delegates
+import com.lattuguini.uthe.shared.Models
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * Created by lattuguini on 24/03/17.
@@ -32,11 +37,12 @@ class SignupFragment: Fragment() {
 	private var pass: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_pass) as TextInputEditText }
 	private var passAgain: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_pass_again) as TextInputEditText }
 	
-	private var usernameValidation = false
-	private var firstnameValidation = false
-	private var lastnameValidation = false
-	private var emailValidation = false
-	private var passwordValidation = false
+	private var validations = BooleanArray(5, { false })
+	private val USERNAME = 0
+	private val EMAIL = 1
+	private val FIRSTNAME = 2
+	private val LASTNAME = 3
+	private val PASSWORD = 4
 	
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 		setHasOptionsMenu(true)
@@ -50,34 +56,61 @@ class SignupFragment: Fragment() {
 		activity.setSupportActionBar(toolbar)
 		activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 		activity.supportActionBar!!.title = resources.getString(R.string.signup)
+		view.findViewById(R.id.fab_signup).setOnClickListener { signup() }
 		
+		addValidations(view)
+	}
+	
+	private fun addValidations(view: View) {
 		val emptyField = resources.getString(R.string.empty_field)
 		val incorrectEmail = resources.getString(R.string.incorrect_email)
 		val passwordError = resources.getString(R.string.password_error)
+		val til_username = view.findViewById(R.id.til_username) as TextInputLayout
+		val til_email = view.findViewById(R.id.til_email) as TextInputLayout
+		val til_firstname = view.findViewById(R.id.til_first_name) as TextInputLayout
+		val til_lastname = view.findViewById(R.id.til_last_name) as TextInputLayout
+		val til_pass = view.findViewById(R.id.til_pass) as TextInputLayout
+		val til_passagain = view.findViewById(R.id.til_pass_again) as TextInputLayout
 		addTextWatcher(username,
-				view.findViewById(R.id.til_username) as TextInputLayout,
+				til_username,
 				emptyField,
-				this::validateEmptyField)
+				this::validateEmptyField,
+				USERNAME)
 		addTextWatcher(firstname,
-				view.findViewById(R.id.til_username) as TextInputLayout,
+				til_firstname,
 				emptyField,
-				this::validateEmptyField)
+				this::validateEmptyField,
+				FIRSTNAME)
 		addTextWatcher(lastname,
-				view.findViewById(R.id.til_username) as TextInputLayout,
+				til_lastname,
 				emptyField,
-				this::validateEmptyField)
-		addTextWatcher(email,
-				view.findViewById(R.id.til_username) as TextInputLayout,
-				emptyField,
-				this::validateEmptyField)
+				this::validateEmptyField,
+				LASTNAME)
 		addTextWatcher(pass,
-				view.findViewById(R.id.til_username) as TextInputLayout,
+				til_pass,
 				emptyField,
-				this::validateEmptyField)
+				this::validateEmptyField,
+				PASSWORD)
 		addTextWatcher(passAgain,
-				view.findViewById(R.id.til_username) as TextInputLayout,
+				til_passagain,
 				emptyField,
-				this::validateEmptyField)
+				this::validateEmptyField,
+				PASSWORD)
+		addTextWatcher(email,
+				til_email,
+				incorrectEmail,
+				this::validateEmail,
+				EMAIL)
+		addTextWatcher(pass,
+				passwordError,
+				this::validatePasswords,
+				til_passagain,
+				PASSWORD)
+		addTextWatcher(passAgain,
+				passwordError,
+				this::validatePasswords,
+				til_passagain,
+				PASSWORD)
 	}
 	
 	override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -91,23 +124,97 @@ class SignupFragment: Fragment() {
 	                           layout: TextInputLayout,
 	                           error: String,
 	                           validation: (String) -> Boolean,
-	                           showError: TextInputLayout? = null) {
+	                           valIndex: Int) {
 		input.addTextChangedListener(object: TextWatcher {
 			override fun afterTextChanged(s: Editable?) {}
 			
 			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 			
 			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-				
+				if (!validation(s.toString())) {
+					layout.error = error
+					validations[valIndex] = false
+				} else {
+					layout.error = null
+					validations[valIndex] = true
+				}
 			}
 		})
 	}
 	
-	private fun validateEmptyField(name: String): Boolean = name.isEmpty()
+	private fun addTextWatcher(input: TextInputEditText,
+	                           error: String,
+	                           validation: () -> Boolean,
+	                           errorLayout: TextInputLayout,
+	                           valIndex: Int) {
+		input.addTextChangedListener(object: TextWatcher {
+			override fun afterTextChanged(s: Editable?) {}
+			
+			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+			
+			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+				if (!validation()) {
+					errorLayout.error = error
+					validations[valIndex] = false
+				} else {
+					errorLayout.error = null
+					validations[valIndex] = true
+				}
+			}
+		})
+	}
+	
+	private fun validateEmptyField(name: String): Boolean = !name.isEmpty()
 	
 	private fun validateEmail(email: String): Boolean
 			= !email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()
 	
 	private fun validatePasswords(): Boolean = pass.text.toString() == passAgain.text.toString()
+	
+	private fun signup() {
+		validations.forEach {
+			if (!it) {
+				return
+			}
+		}
+		
+		signup(username.text.toString(),
+				pass.text.toString(),
+				email.text.toString(),
+				firstname.text.toString(),
+				lastname.text.toString())
+	}
+	
+	private fun signup(username: String,
+	                   password: String,
+	                   email: String,
+	                   firstname: String,
+	                   lastname: String) {
+		service.signup(username,
+				password,
+				email,
+				firstname,
+				lastname,
+				object: Callback<Models.RegisterResponse> {
+					override fun onFailure(call: Call<Models.RegisterResponse>?, t: Throwable?) {
+						Toast.makeText(context, "Error: ${t!!.message}", Toast.LENGTH_SHORT).show()
+					}
+					
+					override fun onResponse(call: Call<Models.RegisterResponse>?, response: Response<Models.RegisterResponse>?) {
+						val register = response!!.body()
+						if (register == null) {
+							Toast.makeText(context, "Error ${response.code()}", Toast.LENGTH_SHORT).show()
+							return
+						}
+						if (register.has_errors) {
+							Toast.makeText(context, register.errors, Toast.LENGTH_SHORT).show()
+							return
+						}
+						
+						loginActivity.login(register.user_id)
+					}
+					
+				})
+	}
 	
 }

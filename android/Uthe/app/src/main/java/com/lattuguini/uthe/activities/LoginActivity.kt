@@ -1,12 +1,13 @@
 package com.lattuguini.uthe.activities
 
 import android.app.Activity
-import android.app.FragmentTransaction
+import android.content.Context
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.lattuguini.uthe.R
 import com.lattuguini.uthe.fragments.LoginFragment
 import com.lattuguini.uthe.fragments.SignupFragment
+import com.lattuguini.uthe.shared.Constants
 import com.lattuguini.uthe.shared.Delegates
 
 /**
@@ -45,7 +46,11 @@ class LoginActivity: AppCompatActivity() {
 		supportFragmentManager.popBackStack()
 	}
 	
-	fun login() {
+	fun login(id: Int) {
+		val editor = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit()
+		editor.putBoolean(Constants.IS_LOGGED, true)
+		editor.putInt(Constants.USER_ID, id)
+		editor.apply()
 		setResult(Activity.RESULT_OK)
 		finish()
 	}

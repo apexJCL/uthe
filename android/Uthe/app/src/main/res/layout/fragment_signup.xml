@@ -134,7 +134,7 @@
         app:pressedTranslationZ="@dimen/fab_pressed"
         app:backgroundTint="@android:color/white"
         android:tint="@color/colorPrimary"
-        android:src="@drawable/ic_settings"
+        android:src="@drawable/ic_check"
         app:rippleColor="@color/colorPrimary"/>
 
 </android.support.design.widget.CoordinatorLayout>

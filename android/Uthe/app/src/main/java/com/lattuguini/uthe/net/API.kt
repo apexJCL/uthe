@@ -2,7 +2,10 @@ package com.lattuguini.uthe.net
 
 import com.lattuguini.uthe.shared.Models
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Headers
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 /**
@@ -17,5 +20,17 @@ interface API {
 	 */
 	@GET("/intakes/{id}")
 	fun getIntake(@Path("id") id: Int): Call<Models.Intake>
+	
+	@Headers(
+		"Accept: application/json"
+	)
+	@POST("/user/signup")
+	fun signup(@Body register: Models.Register): Call<Models.RegisterResponse>
+	
+	@Headers(
+			"Accept: application/json"
+	)
+	@POST("/user/login")
+	fun login(@Body login: Models.Login): Call<Int>
 	
 }

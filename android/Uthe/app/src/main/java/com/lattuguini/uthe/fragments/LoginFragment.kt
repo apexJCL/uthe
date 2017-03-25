@@ -6,10 +6,14 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.lattuguini.uthe.R
 import com.lattuguini.uthe.activities.LoginActivity
 import com.lattuguini.uthe.net.Service
 import com.lattuguini.uthe.shared.Delegates
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * Created by lattuguini on 24/03/17.
@@ -42,7 +46,24 @@ class LoginFragment: Fragment() {
 	}
 	
 	private fun login() {
-		loginActivity.login()
+		service.login(email.text.toString(),
+				pass.text.toString(),
+				object: Callback<Int> {
+					override fun onResponse(call: Call<Int>?, response: Response<Int>?) {
+						val id = response!!.body() ?: -1
+						if(id == -1) {
+							Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+							return
+						}
+						
+						loginActivity.login(id)
+					}
+					
+					override fun onFailure(call: Call<Int>?, t: Throwable?) {
+						Toast.makeText(context, "Error: ${t!!.message}", Toast.LENGTH_SHORT).show()
+					}
+					
+				})
 	}
 	
 	private fun signup() {

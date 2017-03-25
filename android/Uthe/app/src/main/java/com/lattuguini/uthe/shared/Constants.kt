@@ -12,5 +12,6 @@ object Constants {
 	 */
 	val PREFERENCES = "com.lattuguini.uthe"
 	val IS_LOGGED =  "logged"
+	val  USER_ID = "user_id"
 	
 }
