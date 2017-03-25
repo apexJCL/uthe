@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 
+use common\models\LoginForm;
 use frontend\models\Statistics;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -16,6 +17,9 @@ use yii\web\Response;
 
 class UserController extends Controller
 {
+
+    public $enableCsrfValidation = false;
+
     public function behaviors()
     {
         return [
@@ -29,18 +33,14 @@ class UserController extends Controller
         ];
     }
 
-
-    public function actionIndex()
-    {
-        return "Hell";
-    }
-
     /**
      * Login a user
      */
     public function actionLogin()
     {
-
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = LoginForm::newFromJSON(\Yii::$app->request->getRawBody());
+        return $model->login();
     }
 
     /**
