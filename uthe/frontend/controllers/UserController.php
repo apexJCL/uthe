@@ -11,6 +11,7 @@ namespace frontend\controllers;
 
 use common\models\LoginForm;
 use frontend\models\Statistics;
+use frontend\models\User;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -27,10 +28,17 @@ class UserController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'login' => ['POST'],
-                    'statistics' => ['GET']
+                    'statistics' => ['GET'],
+                    'signup' => ['POST']
                 ]
             ]
         ];
+    }
+
+    public function actionSignup()
+    {
+        \Yii::$app->response->format = Response::FORMAT_JSON;
+        return User::register(\Yii::$app->request->rawBody);
     }
 
     /**

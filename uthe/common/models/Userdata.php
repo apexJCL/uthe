@@ -2,8 +2,6 @@
 
 namespace common\models;
 
-use Yii;
-
 /**
  * This is the model class for table "userdata".
  *
@@ -24,6 +22,15 @@ class Userdata extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'userdata';
+    }
+
+    public static function newUser($userdata, $user_id)
+    {
+        $ud = new self();
+        $ud->user_id = $user_id;
+        $ud->first_name = $userdata->first_name;
+        $ud->last_name = isset($userdata->last_name) ? $userdata->last_name : '';
+        $ud->save();
     }
 
     /**
