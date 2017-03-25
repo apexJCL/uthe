@@ -1,5 +1,7 @@
 package com.lattuguini.uthe.activities
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -16,25 +18,38 @@ class MainActivity: AppCompatActivity() {
 		val PIPING_TAG = "piping"
 		val STATISTICS_TAG = "statistics"
 		val SETTINGS_TAG = "settings"
+		
+		private val LOGIN_RESULT = 0x01
 	}
 	
-	private var piping: PipingFragment by Delegates.lazyFragment {
+	private var piping: PipingFragment by Delegates.lazy {
 		PipingFragment()
 	}
 	
-	private var statistics: StatisticsFragment by Delegates.lazyFragment {
+	private var statistics: StatisticsFragment by Delegates.lazy {
 		StatisticsFragment()
 	}
 	
-	private var settings: SettingsFragment by Delegates.lazyFragment {
+	private var settings: SettingsFragment by Delegates.lazy {
 		SettingsFragment()
 	}
+	
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
 		
 		init()
+		if (!islogged())
+			showLogin()
+	}
+	
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (resultCode != Activity.RESULT_OK) {
+			finish()
+			return
+		}
 	}
 	
 	private fun init() {
@@ -60,6 +75,7 @@ class MainActivity: AppCompatActivity() {
 			changeFragment(fragment!!, tag)
 			true
 		}
+		changeFragment(piping, PIPING_TAG)
 	}
 	
 	/**
@@ -77,6 +93,12 @@ class MainActivity: AppCompatActivity() {
 		manager.beginTransaction()
 				.replace(R.id.content, fragment, tag)
 				.commit()
+	}
+	
+	private fun islogged(): Boolean = false
+	
+	private fun showLogin() {
+		startActivityForResult(Intent(this@MainActivity, LoginActivity::class.java), LOGIN_RESULT)
 	}
 	
 }

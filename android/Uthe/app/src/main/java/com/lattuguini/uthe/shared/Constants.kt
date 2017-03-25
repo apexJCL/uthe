@@ -7,4 +7,10 @@ object Constants {
 	
 	val URL = "http://192.168.1.65"
 	
+	/*
+	PREFERENCES
+	 */
+	val PREFERENCES = "com.lattuguini.uthe"
+	val IS_LOGGED =  "logged"
+	
 }

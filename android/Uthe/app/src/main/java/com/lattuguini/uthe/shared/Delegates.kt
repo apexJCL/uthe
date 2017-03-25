@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty
  */
 object Delegates {
 	
-	private class FragmentDelegate<T>(initializer: () -> T): ReadWriteProperty<Any?, T> {
+	private class CustomDelegate<T>(initializer: () -> T): ReadWriteProperty<Any?, T> {
 		
 		private var initializer: (() -> T)? = initializer
 		private var value: T? = null
@@ -23,6 +23,6 @@ object Delegates {
 		
 	}
 	
-	fun <T> lazyFragment(initializer: () -> T): ReadWriteProperty<Any?, T> = FragmentDelegate(initializer)
+	fun <T> lazy(initializer: () -> T): ReadWriteProperty<Any?, T> = CustomDelegate(initializer)
 	
 }

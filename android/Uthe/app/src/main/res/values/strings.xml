@@ -5,4 +5,16 @@
     <string name="piping_item">Piping</string>
     <string name="statistics_item">Statistics</string>
     <string name="settings_item">Settings</string>
+    
+    <!-- LOGIN/SIGNUP -->
+    <string name="email_username">Email or username</string>
+    <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="signup">Create account</string>
+    <string name="forgot">Forgot my password</string>
+    <string name="pass_again">Repeat password</string>
+    <string name="username">Username</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="login">Login</string>
 </resources>
