@@ -27,6 +27,7 @@ class MainActivity: AppCompatActivity() {
 	private var piping: PipingFragment by Delegates.lazy { PipingFragment() }
 	private var statistics: StatisticsFragment by Delegates.lazy { StatisticsFragment() }
 	private var settings: SettingsFragment by Delegates.lazy { SettingsFragment() }
+	private var navigator: BottomNavigationView by Delegates.lazy { findViewById(R.id.navigator) as BottomNavigationView }
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -44,11 +45,12 @@ class MainActivity: AppCompatActivity() {
 		if (resultCode != Activity.RESULT_OK) {
 			finish()
 			return
-		}
+		} else
+			obtainId()
 	}
 	
 	private fun init() {
-		(findViewById(R.id.navigator) as BottomNavigationView).setOnNavigationItemSelectedListener {
+		navigator.setOnNavigationItemSelectedListener {
 			var fragment: Fragment? = null
 			var tag = ""
 			when (it.itemId) {
@@ -70,7 +72,12 @@ class MainActivity: AppCompatActivity() {
 			changeFragment(fragment!!, tag)
 			true
 		}
-		changeFragment(piping, PIPING_TAG)
+		initNavigation()
+	}
+	
+	private fun initNavigation() {
+		navigator.selectedItemId = R.id.piping_item
+		// changeFragment(piping, PIPING_TAG)
 	}
 	
 	/**
@@ -95,6 +102,16 @@ class MainActivity: AppCompatActivity() {
 	
 	private fun obtainId() {
 		Constants.ID = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).getInt(Constants.USER_ID, -1)
+		initNavigation()
+	}
+	
+	fun logout() {
+		val editor = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit()
+		editor.remove(Constants.IS_LOGGED)
+		editor.remove(Constants.USER_ID)
+		editor.apply()
+		
+		showLogin()
 	}
 	
 	private fun showLogin() {

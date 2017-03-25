@@ -26,6 +26,8 @@ class StatisticsFragment : Fragment() {
 	
 	var service: Service by Delegates.lazy { Service() }
 	var recycler: RecyclerView by Delegates.lazy { view!!.findViewById(R.id.recycler) as RecyclerView }
+	private var layer: View by Delegates.lazy { view!!.findViewById(R.id.layer) }
+	private var loader: View by Delegates.lazy { view!!.findViewById(R.id.loader) }
 	var adapter = StatisticsAdapter()
 	
 	override fun onCreateView(inflater: LayoutInflater?,
@@ -50,15 +52,21 @@ class StatisticsFragment : Fragment() {
 	}
 	
 	private fun loadData() {
+		loader.visibility = View.VISIBLE
+		layer.visibility = View.VISIBLE
 		service.getStatistics(Constants.ID,
 				object: Callback<Models.Statistics> {
 					override fun onResponse(call: Call<Models.Statistics>?, response: Response<Models.Statistics>?) {
 						adapter.clear()
 						adapter.addItem(response!!.body())
+						loader.visibility = View.GONE
+						layer.visibility = View.GONE
 					}
 					
 					override fun onFailure(call: Call<Models.Statistics>?, t: Throwable?) {
-						println("ERROR")
+						println("Error ${t!!.message}")
+						loader.visibility = View.GONE
+						layer.visibility = View.GONE
 					}
 					
 				})

@@ -36,6 +36,8 @@ class SignupFragment: Fragment() {
 	private var email: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_email) as TextInputEditText }
 	private var pass: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_pass) as TextInputEditText }
 	private var passAgain: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_pass_again) as TextInputEditText }
+	private var layer: View by Delegates.lazy { view!!.findViewById(R.id.layer) }
+	private var loader: View by Delegates.lazy { view!!.findViewById(R.id.loader) }
 	
 	private var validations = BooleanArray(5, { false })
 	private val USERNAME = 0
@@ -190,6 +192,8 @@ class SignupFragment: Fragment() {
 	                   email: String,
 	                   firstname: String,
 	                   lastname: String) {
+		loader.visibility = View.VISIBLE
+		layer.visibility = View.VISIBLE
 		service.signup(username,
 				password,
 				email,
@@ -197,10 +201,15 @@ class SignupFragment: Fragment() {
 				lastname,
 				object: Callback<Models.RegisterResponse> {
 					override fun onFailure(call: Call<Models.RegisterResponse>?, t: Throwable?) {
+						loader.visibility = View.GONE
+						layer.visibility = View.GONE
 						Toast.makeText(context, "Error: ${t!!.message}", Toast.LENGTH_SHORT).show()
 					}
 					
 					override fun onResponse(call: Call<Models.RegisterResponse>?, response: Response<Models.RegisterResponse>?) {
+						loader.visibility = View.GONE
+						layer.visibility = View.GONE
+						
 						val register = response!!.body()
 						if (register == null) {
 							Toast.makeText(context, "Error ${response.code()}", Toast.LENGTH_SHORT).show()

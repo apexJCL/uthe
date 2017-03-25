@@ -20,20 +20,12 @@ import retrofit2.Response
  */
 class LoginFragment: Fragment() {
 	
-	private var email: TextInputEditText by Delegates.lazy {
-		view!!.findViewById(R.id.in_email_user) as TextInputEditText
-	}
-	
-	private var pass: TextInputEditText by Delegates.lazy {
-		view!!.findViewById(R.id.in_pass) as TextInputEditText
-	}
-	
-	private var service: Service by Delegates.lazy {
-		Service()
-	}
-	private var loginActivity: LoginActivity by Delegates.lazy {
-		activity as LoginActivity
-	}
+	private var email: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_email_user) as TextInputEditText }
+	private var pass: TextInputEditText by Delegates.lazy { view!!.findViewById(R.id.in_pass) as TextInputEditText }
+	private var service: Service by Delegates.lazy { Service() }
+	private var loginActivity: LoginActivity by Delegates.lazy { activity as LoginActivity }
+	private var layer: View by Delegates.lazy { view!!.findViewById(R.id.layer) }
+	private var loader: View by Delegates.lazy { view!!.findViewById(R.id.loader) }
 	
 	override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View?
 			= inflater!!.inflate(R.layout.fragment_login, container, false)
@@ -46,12 +38,16 @@ class LoginFragment: Fragment() {
 	}
 	
 	private fun login() {
+		loader.visibility = View.VISIBLE
+		layer.visibility = View.VISIBLE
 		service.login(email.text.toString(),
 				pass.text.toString(),
 				object: Callback<Int> {
 					override fun onResponse(call: Call<Int>?, response: Response<Int>?) {
 						val id = response!!.body() ?: -1
-						if(id == -1) {
+						loader.visibility = View.GONE
+						layer.visibility = View.GONE
+						if (id == -1) {
 							Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
 							return
 						}
@@ -60,6 +56,8 @@ class LoginFragment: Fragment() {
 					}
 					
 					override fun onFailure(call: Call<Int>?, t: Throwable?) {
+						loader.visibility = View.GONE
+						layer.visibility = View.GONE
 						Toast.makeText(context, "Error: ${t!!.message}", Toast.LENGTH_SHORT).show()
 					}
 					

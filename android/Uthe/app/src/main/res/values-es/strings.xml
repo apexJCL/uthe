@@ -5,6 +5,9 @@
     <string name="statistics_item">Estadisticas</string>
     <string name="settings_item">Ajustes</string>
 
+    <!-- MENUS -->
+    <string name="logout_item">Logout</string>
+
     <!-- LOGIN/SIGNUP -->
     <string name="email_username">Correo o usuario</string>
     <string name="email">Correo</string>

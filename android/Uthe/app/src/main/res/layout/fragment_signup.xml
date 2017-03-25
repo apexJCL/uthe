@@ -137,4 +137,7 @@
         android:src="@drawable/ic_check"
         app:rippleColor="@color/colorPrimary"/>
 
+    <include
+        layout="@layout/loading"/>
+
 </android.support.design.widget.CoordinatorLayout>

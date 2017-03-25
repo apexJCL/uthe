@@ -5,6 +5,9 @@
     <string name="piping_item">Piping</string>
     <string name="statistics_item">Statistics</string>
     <string name="settings_item">Settings</string>
+
+    <!-- MENUS -->
+    <string name="logout_item">Logout</string>
     
     <!-- LOGIN/SIGNUP -->
     <string name="email_username">Email or username</string>

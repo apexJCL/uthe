@@ -11,4 +11,7 @@
     <include
         layout="@layout/recyclerview"/>
 
+    <include
+        layout="@layout/loading"/>
+
 </LinearLayout>

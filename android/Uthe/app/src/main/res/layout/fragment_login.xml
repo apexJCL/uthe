@@ -77,4 +77,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/vertical_padding"/>
 
+    <include
+        layout="@layout/loading"/>
+
 </RelativeLayout>
