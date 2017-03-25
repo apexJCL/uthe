@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Uthe</string>
+
+    <!-- MAIN NAVIGATION -->
+    <string name="piping_item">Piping</string>
+    <string name="statistics_item">Statistics</string>
+    <string name="settings_item">Settings</string>
 </resources>

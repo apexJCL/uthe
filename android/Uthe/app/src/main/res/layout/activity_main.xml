@@ -4,6 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lattuguini.uthe.MainActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.lattuguini.uthe.activities.MainActivity">
+
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/navigator"
+        app:menu="@menu/navigation_menu"/>
+
+    <android.support.v7.widget.ContentFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/content"
+        android:layout_above="@id/navigator"/>
 
 </RelativeLayout>
