@@ -15,6 +15,19 @@ class LoginForm extends Model
 
     private $_user;
 
+    public static function newFromJSON($rawBody)
+    {
+        $r = json_decode($rawBody);
+        if (!isset($r->username))
+            return false;
+        if (!isset($r->password))
+            return false;
+        $m = new self();
+        $m->username = $r->username;
+        $m->password = $r->password;
+        return $m;
+    }
+
 
     /**
      * @inheritdoc
@@ -24,8 +37,6 @@ class LoginForm extends Model
         return [
             // username and password are both required
             [['username', 'password'], 'required'],
-            // rememberMe must be a boolean value
-            ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
             ['password', 'validatePassword'],
         ];
@@ -70,9 +81,17 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            if (strpos($this->username, '@') !== false)
+                $this->_user = User::findByEmail($this->username);
+            else
+                $this->_user = User::findByUsername($this->username);
         }
 
         return $this->_user;
+    }
+
+    public function loadJson($post)
+    {
+
     }
 }
