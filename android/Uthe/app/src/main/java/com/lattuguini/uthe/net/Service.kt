@@ -53,4 +53,8 @@ class Service {
 	          callback: Callback<Int>)
 			= api.login(Models.Login(username, pass)).enqueue(callback)
 	
+	fun getStatistics(id: Int,
+	                  callback: Callback<Models.Statistics>)
+			= api.getStatistics(id).enqueue(callback)
+	
 }

@@ -33,4 +33,7 @@ interface API {
 	@POST("/user/login")
 	fun login(@Body login: Models.Login): Call<Int>
 	
+	@GET("/user/{id}/statistics")
+	fun getStatistics(@Path("id") id: Int): Call<Models.Statistics>
+	
 }

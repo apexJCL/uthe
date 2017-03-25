@@ -1,6 +1,7 @@
 package com.lattuguini.uthe.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -10,6 +11,7 @@ import com.lattuguini.uthe.R
 import com.lattuguini.uthe.fragments.PipingFragment
 import com.lattuguini.uthe.fragments.SettingsFragment
 import com.lattuguini.uthe.fragments.StatisticsFragment
+import com.lattuguini.uthe.shared.Constants
 import com.lattuguini.uthe.shared.Delegates
 
 class MainActivity: AppCompatActivity() {
@@ -33,6 +35,8 @@ class MainActivity: AppCompatActivity() {
 		init()
 		if (!islogged())
 			showLogin()
+		else
+			obtainId()
 	}
 	
 	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -86,7 +90,12 @@ class MainActivity: AppCompatActivity() {
 				.commit()
 	}
 	
-	private fun islogged(): Boolean = false
+	private fun islogged(): Boolean
+			= getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).getBoolean(Constants.IS_LOGGED, false)
+	
+	private fun obtainId() {
+		Constants.ID = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).getInt(Constants.USER_ID, -1)
+	}
 	
 	private fun showLogin() {
 		startActivityForResult(Intent(this@MainActivity, LoginActivity::class.java), LOGIN_RESULT)
