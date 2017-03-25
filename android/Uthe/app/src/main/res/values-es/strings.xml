@@ -16,4 +16,9 @@
     <string name="first_name">Nombre</string>
     <string name="last_name">Apellidos</string>
     <string name="login">Iniciar sesión</string>
+
+    <!-- ERRORS -->
+    <string name="empty_field">Llena este campo</string>
+    <string name="incorrect_email">Correo incorrecto</string>
+    <string name="password_error">Las contraseñas deben coincidir</string>
 </resources>

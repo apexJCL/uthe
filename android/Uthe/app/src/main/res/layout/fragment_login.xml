@@ -26,7 +26,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/email_username"
                 android:inputType="textEmailAddress"
-                android:imeOptions="actionNext"/>
+                android:imeOptions="actionNext"
+                android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -39,7 +40,8 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/pass"
                 android:inputType="textPassword"
-                android:imeOptions="actionDone"/>
+                android:imeOptions="actionDone"
+                android:maxLines="1"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
@@ -59,12 +61,8 @@
             android:textColor="@color/colorPrimary"
             android:layout_gravity="center"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:focusableInTouchMode="true">
-            <requestFocus/>
-        </View>
+        <include
+            layout="@layout/aux_input_view"/>
 
     </android.support.v7.widget.LinearLayoutCompat>
 

@@ -2,4 +2,6 @@
     <dimen name="horizontal_padding">16dp</dimen>
     <dimen name="vertical_padding">16dp</dimen>
     <dimen name="vertical_input_separation">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_pressed">6dp</dimen>
 </resources>

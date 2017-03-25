@@ -17,4 +17,9 @@
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="login">Login</string>
+
+    <!-- ERRORS -->
+    <string name="empty_field">Input this field</string>
+    <string name="incorrect_email">Incorrect email</string>
+    <string name="password_error">Passwords must match</string>
 </resources>

@@ -22,18 +22,9 @@ class MainActivity: AppCompatActivity() {
 		private val LOGIN_RESULT = 0x01
 	}
 	
-	private var piping: PipingFragment by Delegates.lazy {
-		PipingFragment()
-	}
-	
-	private var statistics: StatisticsFragment by Delegates.lazy {
-		StatisticsFragment()
-	}
-	
-	private var settings: SettingsFragment by Delegates.lazy {
-		SettingsFragment()
-	}
-	
+	private var piping: PipingFragment by Delegates.lazy { PipingFragment() }
+	private var statistics: StatisticsFragment by Delegates.lazy { StatisticsFragment() }
+	private var settings: SettingsFragment by Delegates.lazy { SettingsFragment() }
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
