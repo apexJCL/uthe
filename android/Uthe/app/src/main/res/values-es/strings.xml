@@ -21,4 +21,11 @@
     <string name="empty_field">Llena este campo</string>
     <string name="incorrect_email">Correo incorrecto</string>
     <string name="password_error">Las contraseñas deben coincidir</string>
+
+    <!-- STATISTICS -->
+    <string name="allowed_liters">Litros permitidos</string>
+    <string name="consumed_liters">Litros consumidos</string>
+    <string name="remaining_literes">Litros restantes</string>
+    <string name="statistics_title">Aquí esta tu consumo de agua</string>
+
 </resources>

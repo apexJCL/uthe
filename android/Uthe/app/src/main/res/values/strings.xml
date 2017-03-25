@@ -22,4 +22,10 @@
     <string name="empty_field">Input this field</string>
     <string name="incorrect_email">Incorrect email</string>
     <string name="password_error">Passwords must match</string>
+    
+    <!-- STATISTICS -->
+    <string name="allowed_liters">Allowed liters</string>
+    <string name="consumed_liters">Consumed liters</string>
+    <string name="remaining_literes">Remaining liters</string>
+    <string name="statistics_title">Here\'s your water consume</string>
 </resources>
