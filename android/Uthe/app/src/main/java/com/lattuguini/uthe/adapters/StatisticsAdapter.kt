@@ -43,11 +43,13 @@ class StatisticsAdapter : RecyclerView.Adapter<StatisticsAdapter.Viewholder>() {
 	
 	class Viewholder(view: View) : RecyclerView.ViewHolder(view) {
 		
+		private var username: AppCompatTextView by Delegates.lazy { view.findViewById(R.id.username) as AppCompatTextView }
 		private var allowed: AppCompatTextView by Delegates.lazy { view.findViewById(R.id.allowed_liters) as AppCompatTextView }
 		private var consumed: AppCompatTextView by Delegates.lazy { view.findViewById(R.id.consumed_liters) as AppCompatTextView }
 		private var remaining: AppCompatTextView by Delegates.lazy { view.findViewById(R.id.remaining_liters) as AppCompatTextView }
 		
 		fun setData(statistics: Models.Statistics) {
+			username.text = statistics.username
 			allowed.text = "${statistics.allowed_liters}"
 			consumed.text = "${statistics.consumed_liters}"
 			remaining.text = "${statistics.remaining_liters}"

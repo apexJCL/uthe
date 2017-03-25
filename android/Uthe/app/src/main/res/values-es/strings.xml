@@ -31,4 +31,7 @@
     <string name="remaining_literes">Litros restantes</string>
     <string name="statistics_title">Aquí esta tu consumo de agua</string>
 
+    <!-- PIPING -->
+    <string name="scan">Escanear</string>
+    <string name="piping_info">Aquí puedes escanear un codigo QR para comenzar a consumir agua</string>
 </resources>

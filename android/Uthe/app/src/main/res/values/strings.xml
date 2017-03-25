@@ -31,4 +31,9 @@
     <string name="consumed_liters">Consumed liters</string>
     <string name="remaining_literes">Remaining liters</string>
     <string name="statistics_title">Here\'s your water consume</string>
+
+    <!-- PIPING -->
+    <string name="scan">Scan</string>
+    <string name="piping_info">Here you can scan a QR code to consume water</string>
+
 </resources>

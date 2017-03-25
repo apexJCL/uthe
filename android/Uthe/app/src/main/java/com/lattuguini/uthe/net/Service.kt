@@ -57,4 +57,9 @@ class Service {
 	                  callback: Callback<Models.Statistics>)
 			= api.getStatistics(id).enqueue(callback)
 	
+	fun enableControl(userId: Int,
+	                  intakeId: Int,
+	                  callback: Callback<Boolean>)
+			= api.enableControl(userId, intakeId).enqueue(callback)
+	
 }

@@ -89,11 +89,14 @@ class MainActivity: AppCompatActivity() {
 	private fun changeFragment(fragment: Fragment,
 	                           tag: String) {
 		val manager = supportFragmentManager
+		if(manager.fragments != null && manager.fragments.size > 1)
+			manager.popBackStack()
 		if (manager.findFragmentByTag(tag) != null)
 			return
 		
 		manager.beginTransaction()
 				.replace(R.id.content, fragment, tag)
+				.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
 				.commit()
 	}
 	
@@ -116,6 +119,18 @@ class MainActivity: AppCompatActivity() {
 	
 	private fun showLogin() {
 		startActivityForResult(Intent(this@MainActivity, LoginActivity::class.java), LOGIN_RESULT)
+	}
+	
+	fun addExtraFragment(fragment: Fragment) {
+		supportFragmentManager.beginTransaction()
+				.replace(R.id.content, fragment, fragment.tag)
+				.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+				.addToBackStack(fragment.tag)
+				.commit()
+	}
+	
+	fun popFragment() {
+		supportFragmentManager.popBackStack()
 	}
 	
 }

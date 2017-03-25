@@ -36,4 +36,8 @@ interface API {
 	@GET("/user/{id}/statistics")
 	fun getStatistics(@Path("id") id: Int): Call<Models.Statistics>
 	
+	@GET("/control/enable/{user_id}/{intake_id}")
+	fun enableControl(@Path("user_id") user_id: Int,
+	                  @Path("intake_id") intake_id: Int): Call<Boolean>
+	
 }

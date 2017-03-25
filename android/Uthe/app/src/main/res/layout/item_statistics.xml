@@ -29,8 +29,20 @@
             <android.support.v7.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/allowed_liters"
+                android:text="@string/username"
                 style="@style/Base.TextAppearance.AppCompat.Large"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/allowed_liters"
+                style="@style/Base.TextAppearance.AppCompat.Large"
+                android:layout_marginTop="@dimen/vertical_input_separation"/>
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/allowed_liters"
