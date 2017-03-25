@@ -13,6 +13,11 @@ return [
         'encodeParams' => false
     ],
     [
+        'pattern' => '/control/enable/<user_id>/<intake_id>',
+        'route' => 'control/enable',
+        'encodeParams' => false
+    ],
+    [
         'class' => \yii\rest\UrlRule::className(),
         'controller' => 'intake'
     ]
