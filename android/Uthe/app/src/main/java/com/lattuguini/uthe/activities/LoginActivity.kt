@@ -15,12 +15,8 @@ import com.lattuguini.uthe.shared.Delegates
  */
 class LoginActivity: AppCompatActivity() {
 	
-	private var login: LoginFragment by Delegates.lazy {
-		LoginFragment()
-	}
-	private var signup: SignupFragment by Delegates.lazy {
-		SignupFragment()
-	}
+	private var login: LoginFragment by Delegates.lazy { LoginFragment() }
+	private var signup: SignupFragment by Delegates.lazy { SignupFragment() }
 	
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -35,6 +31,9 @@ class LoginActivity: AppCompatActivity() {
 				.commit()
 	}
 	
+	/*
+	Shows the signup fragment
+	 */
 	fun signup() {
 		supportFragmentManager.beginTransaction()
 				.replace(R.id.content, signup, signup.tag)
@@ -46,6 +45,11 @@ class LoginActivity: AppCompatActivity() {
 		supportFragmentManager.popBackStack()
 	}
 	
+	/**
+	 * Stores the user's 'sesion'
+	 *
+	 * @id  User's id
+	 */
 	fun login(id: Int) {
 		val editor = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit()
 		editor.putBoolean(Constants.IS_LOGGED, true)

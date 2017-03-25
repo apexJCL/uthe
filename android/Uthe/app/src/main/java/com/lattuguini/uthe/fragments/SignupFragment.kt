@@ -63,6 +63,9 @@ class SignupFragment: Fragment() {
 		addValidations(view)
 	}
 	
+	/**
+	 * Add awesome validations to input fields
+	 */
 	private fun addValidations(view: View) {
 		val emptyField = resources.getString(R.string.empty_field)
 		val incorrectEmail = resources.getString(R.string.incorrect_email)

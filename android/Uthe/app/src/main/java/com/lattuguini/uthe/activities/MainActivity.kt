@@ -100,14 +100,27 @@ class MainActivity: AppCompatActivity() {
 				.commit()
 	}
 	
+	/**
+	 * Checks if the user is logged
+	 *
+	 * @return  True if the user is logged, false if not
+	 */
 	private fun islogged(): Boolean
 			= getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).getBoolean(Constants.IS_LOGGED, false)
 	
+	/**
+	 * Obtains the user's id from the preferences
+	 *
+	 * @return  User's id
+	 */
 	private fun obtainId() {
 		Constants.ID = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).getInt(Constants.USER_ID, -1)
 		initNavigation()
 	}
 	
+	/*
+	Removes the user's preferences
+	 */
 	fun logout() {
 		val editor = getSharedPreferences(Constants.PREFERENCES, Context.MODE_PRIVATE).edit()
 		editor.remove(Constants.IS_LOGGED)
