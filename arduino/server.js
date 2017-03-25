@@ -1,12 +1,41 @@
 var five = require("johnny-five");
 var board = new five.Board();
-var Stream = require('stream');
-var flow_stream = new Stream();
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
 
-var layout = { fileopt : "overwrite", filename : "Water Flow" };
-
+// VARS MEDITIONS
 var pulses = 0;
 var lastFlowRateTimer = 0;
+
+
+// ENCODER
+
+app.use(bodyParser.urlencoded( { extended: true }));
+app.use(bodyParser.json());
+
+var port = process.env.PORT || 8080;
+var router = express.Router();
+
+// ROUTES 
+
+router.get('/', function(req, res){
+	res.json({ message: 'Hooray!'})
+});
+
+router.route('/flow').get(function(req, res){
+	console.log(req.query);
+	var time_flow = req.query.time;
+	var litros = req.query.maxflow;
+	res.json({ mess: 'good'});
+
+
+})
+
+app.use('/api', router);
+app.listen(port);
+console.log('Magic happens on port ' + port);
+
 
 board.on("ready", function() {
   this.pinMode(2, five.Pin.INPUT);
@@ -24,8 +53,8 @@ board.on("ready", function() {
     var litres = pulses;
     litres /= 7.5;
     litres /= 60;
-    console.log("Freq: " + pulses)
-    console.log("Litros: " + litres)
+    //console.log("Freq: " + pulses)
+    //console.log("Litros: " + litres)
     var time = getDateString();        
   }, 1000);
 });
